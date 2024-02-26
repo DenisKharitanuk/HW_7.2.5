@@ -16,7 +16,7 @@ public class WorkerImpl implements Worker {
     }
 
     @Override
-    public void addNewArticles( List<Article> articles) {
+    public void addNewArticles(List<Article> articles) {
         Map<Integer, List<Article>> newArticles = prepareArticles(articles).stream()
                 .collect(Collectors.groupingBy(a -> a.getCreationDate().getYear()));
         newArticles.forEach(library::store);
@@ -38,6 +38,7 @@ public class WorkerImpl implements Worker {
         List<Article> result = articles
                 .stream()
                 .filter(this::isArticleCorrect)
+                .distinct()
                 .toList();
         result.forEach(this::prepareDate);
         return result;
@@ -49,9 +50,11 @@ public class WorkerImpl implements Worker {
                 nullOrBlank(article.getAuthor()));
     }
 
+
     private boolean nullOrBlank(String s) {
         return s == null || s.isBlank();
     }
+
 
     private void prepareDate(Article article) {
         if (article.getCreationDate() == null) {

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -81,6 +80,22 @@ class WorkerImplTest {
         assertEquals(artList, worker.prepareArticles(artList));
 
 
+    }
+
+    @Test
+    void prepareArticles_articleIsDuplicate_duplicateNotExist() {
+
+       newArticleList.add(new Article("Как правильно изучать языки программирования",
+                "Как эффективно изучать программирование. Советы, которые помогут лучше и эффективнее учить любой язык программирования.",
+                "Сергей Сергеев",
+                LocalDate.of(2022, 10, 22)));
+
+        newArticleList.add(new Article("Как правильно изучать языки программирования",
+                "Как эффективно изучать программирование. Советы, которые помогут лучше и эффективнее учить любой язык программирования.",
+                "Сергей Сергеев",
+                LocalDate.of(2022, 10, 22)));
+        List<Article> newSameArticles = worker.prepareArticles(newArticleList);
+        assertEquals(1, newSameArticles.size());
     }
 
     @Test
@@ -164,4 +179,6 @@ class WorkerImplTest {
 
 
     }
+
+
 }
