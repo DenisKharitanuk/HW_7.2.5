@@ -2,6 +2,7 @@ package exercise.article;
 
 import exercise.worker.WorkerImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -26,10 +27,10 @@ class WorkerImplTest {
     private WorkerImpl worker;
 
     @Mock
-    Library library;
+    private Library library;
 
 
-    private static String getTitlesFromFile() throws IOException {
+    public static String getTitlesFromFile() throws IOException {
 
         StringBuilder expectedTitles = new StringBuilder();
         BufferedReader reader = new BufferedReader(new FileReader("src/main/java/resources/titless.txt"));
@@ -55,7 +56,8 @@ class WorkerImplTest {
     // getCatalog's tests
 
     @Test
-    void getCatalogTitle_WithAlphabetOrder() throws IOException {
+    @DisplayName("Получить каталог с  заголовками статей в алфавитном порядке ")
+    public void getTitlesFromCatalog() throws IOException {
 
         when(library.getAllTitles()).thenReturn(titlesList);
 
@@ -68,7 +70,8 @@ class WorkerImplTest {
     // prepareArticles tests
 
     @Test
-    void prepareArticles_allFieldsAreFilledIn_preparationIsGoingWell() {
+    @DisplayName(" подготовка статьи ,со всеми заполнеными полями, к сохранению   ")
+    public void allFieldsAreFilledIn() {
         List<Article> artList = new ArrayList<>();
 
         artList.add(new Article(
@@ -83,9 +86,10 @@ class WorkerImplTest {
     }
 
     @Test
-    void prepareArticles_articleIsDuplicate_duplicateNotExist() {
+    @DisplayName("подготовка статьи , заголовки статей повторяются , к сохранению ")
+    public void sameTitlesDefence() {
 
-       newArticleList.add(new Article("Как правильно изучать языки программирования",
+        newArticleList.add(new Article("Как правильно изучать языки программирования",
                 "Как эффективно изучать программирование. Советы, которые помогут лучше и эффективнее учить любой язык программирования.",
                 "Сергей Сергеев",
                 LocalDate.of(2022, 10, 22)));
@@ -99,7 +103,8 @@ class WorkerImplTest {
     }
 
     @Test
-    void prepareArticles_withoutDataTheRemainingFieldsAreFilledIn_preparationIsSuccessfulDataIsGenerated() {
+    @DisplayName("подготовка статей к сохранению с незаполненным полем дата , которое генерируется автоматически")
+    public void notData() {
         List<Article> expectedArtList = new ArrayList<>();
 
         newArticleList.add(new Article("Как правильно изучать языки программирования",
@@ -118,7 +123,8 @@ class WorkerImplTest {
     }
 
     @Test
-    void prepareArticles_allFieldsAreClean_prepareIsntSuccessful() {
+    @DisplayName("подготовка статьи , все поля не заполнены, к сохранению ")
+    public void allFieldsIsEmpty() {
         List<Article> artList = new ArrayList<>();
         Article artWithCleanFields = new Article(null,
                 null,
@@ -130,7 +136,8 @@ class WorkerImplTest {
     }
 
     @Test
-    void prepareArticles_withoutTitleTheRemainingFieldsAreFilledIn_prepareIsntSuccessful() {
+    @DisplayName("подготовка статьи , поле  title не заполнено , к сохранению")
+    public void notTitle() {
         List<Article> artList = new ArrayList<>();
         Article artWithCleanFields = new Article(null,
                 "This content is so big ",
@@ -142,7 +149,8 @@ class WorkerImplTest {
     }
 
     @Test
-    void prepareArticles_withoutContentTheRemainingFieldsAreFilledIn_prepareIsntSuccessful() {
+    @DisplayName("подготовка статьи , поле content  не заполнено , к сохранению")
+    public void notContent() {
         List<Article> artList = new ArrayList<>();
         Article artWithCleanFields = new Article("Bla bla",
                 null,
@@ -154,7 +162,8 @@ class WorkerImplTest {
     }
 
     @Test
-    void prepareArticles_withoutAuthorTheRemainingFieldsAreFilledIn_prepareIsntSuccessful() {
+    @DisplayName("подготовка статьи , поле author  не заполнено , к сохранению")
+    public void notAuthor() {
         List<Article> artList = new ArrayList<>();
         Article artWithCleanFields = new Article("Bla bla",
                 "Гыыыы улыобочку",
@@ -170,7 +179,8 @@ class WorkerImplTest {
 
 
     @Test
-    void addNewArticles_saveArticlesInLibrary() {
+    @DisplayName("сохранение статьи в библиотеку ")
+    public void safeArticleInLibrary() {
 
         newArticleList.add(new Article("MadeNewArticleTitle", "ContentContent",
                 "AuthorAuthor", LocalDate.of(2023, 1, 1)));
